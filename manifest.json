@@ -1,6 +1,15 @@
 {
   "manifest_version": 3,
-  "name": "CRXJS React Vite Example",
-  "version": "1.0.0",
-  "action": { "default_popup": "index.html" }
+  "name": "Comfortable",
+  "version": "0.1.0",
+  "permissions": ["activeTab"],
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "content_scripts": [
+    {
+      "js": ["src/content.tsx"],
+      "matches": ["https://*/*", "http://*/*"]
+    }
+  ]
 }
