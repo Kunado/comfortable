@@ -3,12 +3,14 @@ import { FC, useState, useEffect } from "react";
 import { TableHeader } from "./TableHeader";
 import { TableRow } from "./TableRow";
 import { SortOption, SortOrderOption, newSortOption, sortRowsBySortOption } from "../../tableSorter";
+import { css } from "@emotion/css";
 
 type TableProps = {
-  tableObject: TableObject
+  tableObject: TableObject,
+  replaceTable: boolean
 }
 
-export const Table: FC<TableProps> = ({ tableObject }) => {
+export const Table: FC<TableProps> = ({ tableObject, replaceTable }) => {
   const initialRowData = Array.from(tableObject.rows)
   const [rowData, setRowData] = useState(initialRowData);
   const [sortOption, setSortOption] = useState<SortOption<SortOrderOption> | null>(null);
@@ -26,16 +28,14 @@ export const Table: FC<TableProps> = ({ tableObject }) => {
     setRowData(newRowData)
   }, [sortOption])
 
-  const tableHeaderProps = {
-    header: tableObject.header,
-    resorter: resorter,
-    sortOption: sortOption
-  }
-
   return (
-    <table>
+    <table className={tableVisibilityStyle(replaceTable)}>
       <thead>
-        { TableHeader(tableHeaderProps) }
+        <TableHeader
+          header={tableObject.header}
+          resorter={resorter}
+          sortOption={sortOption}
+        />
       </thead>
       <tbody>
         {
@@ -50,3 +50,6 @@ export const Table: FC<TableProps> = ({ tableObject }) => {
   )
 }
 
+const tableVisibilityStyle = (replaceTable: boolean) => css(`
+  ${!replaceTable && `display: none`}
+`)

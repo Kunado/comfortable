@@ -1,4 +1,4 @@
-import { FC, Fragment } from "react";
+import { FC } from "react";
 import { SortOption, SortOrderOption } from "../../tableSorter";
 import { AiFillCaretUp, AiFillCaretDown } from "react-icons/ai";
 
@@ -29,7 +29,7 @@ type SortOrderIndicatorProps = {
 
 const SortOrderIndicator: FC<SortOrderIndicatorProps> = ({ sortOption, index }) => {
   return (
-    <Fragment>
+    <>
       {
         (() => {
           if(sortOption?.columnIndex == index) {
@@ -41,6 +41,6 @@ const SortOrderIndicator: FC<SortOrderIndicatorProps> = ({ sortOption, index }) 
           }
         })()
       }
-    </Fragment>
+    </>
   )
 }
