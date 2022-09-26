@@ -2,8 +2,9 @@ import { FC, useState } from "react";
 import parse from 'html-react-parser';
 import { convertTableToObject } from "../detectTables"
 import { Table } from "./Table/Table"
-import { ToggleTableButton } from "./ToggleTableButton";
-
+import { WrapperHeader } from "./WrapperHeader";
+import { css } from "@emotion/css";
+import { StyleProps } from "./util"
 
 type TableWrapperProps = {
   table: HTMLTableElement
@@ -11,18 +12,24 @@ type TableWrapperProps = {
 
 export const TableWrapper: FC<TableWrapperProps> = ({ table }) => {
   const [replaceTable, setReplaceTable] = useState(false)
-  const originalTable = tableDomToJSX(table)
+  const OriginalTable: FC<StyleProps> = () => {
+    return (
+      <div className={tableStyle}>
+        { tableDomToJSX(table) }
+      </div>
+    )
+  }
   const tableObject = convertTableToObject(table)
 
   return (
-    <>
-      <ToggleTableButton setReplaceTable={setReplaceTable}/>
-      {!replaceTable &&  originalTable }
+    <div className={wrapperStyle}>
+    <WrapperHeader setReplaceTable={setReplaceTable} />
+      {!replaceTable &&  (<OriginalTable/>) }
       <Table
         tableObject={tableObject}
         replaceTable={replaceTable}
       />
-    </>
+    </div>
   )
 }
 
@@ -32,3 +39,16 @@ const tableDomToJSX = (table: HTMLTableElement) => {
   dummyWrapper.appendChild(clonedTable);
   return parse(dummyWrapper.innerHTML)
 }
+
+const tableStyle = css`
+  table {
+    margin: 0;
+  }
+`
+
+const wrapperStyle = css({
+  border: "1px solid #888",
+  borderRadius: "5px",
+  padding: "0 10px 10px 10px",
+  margin: "10px 0"
+})

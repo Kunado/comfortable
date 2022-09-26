@@ -29,27 +29,35 @@ export const Table: FC<TableProps> = ({ tableObject, replaceTable }) => {
   }, [sortOption])
 
   return (
-    <table className={tableVisibilityStyle(replaceTable)}>
-      <thead>
-        <TableHeader
-          header={tableObject.header}
-          resorter={resorter}
-          sortOption={sortOption}
-        />
-      </thead>
-      <tbody>
-        {
-          rowData.map((row, i) => {
-            return (
-              <TableRow row={row} key={i} />
-            )
-          })
-        }
-      </tbody>
-    </table>
+    <div className={marginRemover}>
+      <table className={tableVisibilityStyle(replaceTable)}>
+        <thead>
+          <TableHeader
+            header={tableObject.header}
+            resorter={resorter}
+            sortOption={sortOption}
+          />
+        </thead>
+        <tbody>
+          {
+            rowData.map((row, i) => {
+              return (
+                <TableRow row={row} key={i} />
+              )
+            })
+          }
+        </tbody>
+      </table>
+    </div>
   )
 }
 
 const tableVisibilityStyle = (replaceTable: boolean) => css(`
-  ${!replaceTable && `display: none`}
+  ${!replaceTable && `display: none;`}
 `)
+
+const marginRemover = css`
+  table {
+    margin: 0;
+  }
+`

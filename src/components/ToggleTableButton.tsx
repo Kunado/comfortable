@@ -18,6 +18,9 @@ export const ToggleTableButton: FC<ToggleTableButtonProps> = ({ setReplaceTable 
       }
     label="Replace table"
     labelPlacement="start"
+    sx={{
+      color: "#777"
+    }}
     />
   )
 }
